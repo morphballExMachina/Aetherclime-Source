@@ -1,0 +1,30 @@
+# Visual Studio and CMake generated state
+.vs/
+out/
+build/
+build-*/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+CMakeUserPresets.json
+compile_commands.json
+
+# vcpkg dependency installations and downloads
+vcpkg_installed/
+
+# Compiled artifacts, diagnostics, and local test state
+*.dll
+*.exe
+*.exp
+*.ilk
+*.lib
+*.obj
+*.pdb
+*.log
+*.tmp
+*.user
+*.suo
+
+# Generated OS/editor files
+.DS_Store
+Thumbs.db

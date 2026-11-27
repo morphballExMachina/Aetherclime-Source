@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://qconsulting.ca/fo3/ModConfig5.0.xsd">
+  <moduleName>Aetherclime - Environmental Framework (SKSE)</moduleName>
+  <requiredInstallFiles>
+    <file source="Core\SKSE\Plugins\Aetherclime.dll" destination="SKSE\Plugins\Aetherclime.dll" />
+  </requiredInstallFiles>
+  <installSteps order="Explicit">
+    <installStep name="Choose your Aetherclime HUD experience">
+      <optionalFileGroups order="Explicit">
+        <group name="Aetherclime status notifications" type="SelectExactlyOne">
+          <plugins order="Explicit">
+            <plugin name="Framework Only (Recommended)">
+              <description>Silent environmental framework. The API and climate estimates are fully functional, but no HUD notifications appear. You can change this anytime in SKSE\Plugins\Aetherclime\config.json: set hud.mode to off, minimal, detailed, or debug. Reinstalling with a preset can overwrite your customized config; back it up first.</description>
+              <files>
+                <file source="Options\FrameworkOnly\SKSE\Plugins\Aetherclime\config.json" destination="SKSE\Plugins\Aetherclime\config.json" />
+              </files>
+              <typeDescriptor><type name="Recommended" /></typeDescriptor>
+            </plugin>
+            <plugin name="Minimal HUD (Optional)">
+              <description>Show concise seasonal and temperature status messages on eligible environment changes (90-second cooldown, heartbeat disabled). Change your mind anytime in SKSE\Plugins\Aetherclime\config.json by editing hud.mode. Re-running the installer can overwrite customized settings; back up config.json before reinstalling.</description>
+              <files>
+                <file source="Options\MinimalHUD\SKSE\Plugins\Aetherclime\config.json" destination="SKSE\Plugins\Aetherclime\config.json" />
+              </files>
+              <typeDescriptor><type name="Optional" /></typeDescriptor>
+            </plugin>
+          </plugins>
+        </group>
+      </optionalFileGroups>
+    </installStep>
+  </installSteps>
+</config>

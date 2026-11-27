@@ -1,0 +1,10 @@
+{
+  "name": "aetherclime",
+  "version-string": "0.5.0-rc1",
+  "description": "Modular environmental climate core for Skyrim SE/AE",
+  "dependencies": [
+    "commonlibsse-ng",
+    "nlohmann-json"
+  ],
+  "builtin-baseline": "54b1f76973ca73e8b31297734f19bb90ae58374a"
+}

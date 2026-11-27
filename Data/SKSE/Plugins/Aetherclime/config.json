@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "hud": {
+    "mode": "off",
+    "temperatureUnit": "C",
+    "cooldownSeconds": 90.0,
+    "loadGraceSeconds": 8.0,
+    "sampleIntervalSeconds": 2.0,
+    "temperatureDeltaC": 3.0,
+    "heartbeatSeconds": 0.0,
+    "sampleOnMenuClose": true,
+    "showOnFirstObservation": true,
+    "showProvisionalEstimates": false,
+    "debugInitializationMessage": false
+  },
+  "biomeClimate": {
+    "enabled": false,
+    "maxGapRawUnits": 4096,
+    "gapSeparationRawUnits": 1024,
+    "spatialGradientEnabled": false,
+    "gradientSouthYRaw": 52000,
+    "gradientNorthYRaw": 175000,
+    "gradients": {
+      "coastal": {
+        "southOffsetC": [7, 7, 7, 7],
+        "northOffsetC": [-4, -3, -3, -3]
+      }
+    },
+    "profiles": {
+      "pine-forest": {
+        "seasonalMeanC": [
+          0,
+          10,
+          19,
+          9
+        ],
+        "diurnalAmplitudeC": 4
+      },
+      "fall-forest": {
+        "seasonalMeanC": [
+          -3,
+          9,
+          20,
+          8
+        ],
+        "diurnalAmplitudeC": 5.5
+      },
+      "tundra": {
+        "seasonalMeanC": [
+          -4,
+          9,
+          21,
+          9
+        ],
+        "diurnalAmplitudeC": 6
+      },
+      "reach": {
+        "seasonalMeanC": [
+          -5,
+          7,
+          18,
+          7
+        ],
+        "diurnalAmplitudeC": 5
+      },
+      "marsh": {
+        "seasonalMeanC": [
+          -3,
+          7,
+          17,
+          8
+        ],
+        "diurnalAmplitudeC": 3.5
+      },
+      "volcanic-tundra": {
+        "seasonalMeanC": [
+          -4,
+          8,
+          19,
+          7
+        ],
+        "diurnalAmplitudeC": 5
+      },
+      "coastal": {
+        "seasonalMeanC": [
+          -10,
+          -1,
+          9,
+          0
+        ],
+        "diurnalAmplitudeC": 3
+      },
+      "snow": {
+        "seasonalMeanC": [
+          -16,
+          -5,
+          5,
+          -5
+        ],
+        "diurnalAmplitudeC": 3.5
+      },
+      "alpine": {
+        "seasonalMeanC": [
+          -19,
+          -8,
+          2,
+          -8
+        ],
+        "diurnalAmplitudeC": 4
+      }
+    }
+  },
+  "settings": {
+    "transitionDays": 9,
+    "anomalyAmplitudeC": 3.0,
+    "weatherSeed": 1337,
+    "fallbackRegion": "temperate",
+    "experimentalLiveMonitor": false,
+    "liveMonitorIntervalSeconds": 10.0,
+    "experimentalMovementProbe": false,
+    "movementProbeIntervalSeconds": 2.0,
+    "movementProbeMinDistanceRawUnits": 256.0,
+    "movementProbeMaxSamples": 600,
+    "movementProbeMaxReports": 80,
+    "experimentalBoundaryProbe": false,
+    "experimentalWeatherCorrelationProbe": false,
+    "geographicFallbackEnabled": true,
+    "geographicContinuityEnabled": false,
+    "eventClimateEnabled": false,
+    "temperatureContinuityPreviewEnabled": false,
+    "temperatureContinuityFadeDistanceRawUnits": 4096.0,
+    "temperatureContinuityMaxCompensationC": 6.0,
+    "temperatureContinuityMaxLifetimeGameHours": 0.5,
+    "geographicSurveyEnabled": false,
+    "geographicAtlasEnabled": false,
+    "apiConsumerProbeEnabled": false,
+    "nativeRegionShadowEnabled": false,
+    "nativeRegionGeometryExportEnabled": false
+  },
+  "months": {
+    "Morning Star": "WIN",
+    "Sun's Dawn": "WIN",
+    "First Seed": "SPR",
+    "Rain's Hand": "SPR",
+    "Second Seed": "SPR",
+    "Mid Year": "SUM",
+    "Sun's Height": "SUM",
+    "Last Seed": "SUM",
+    "Hearthfire": "AUT",
+    "Frostfall": "AUT",
+    "Sun's Dusk": "AUT",
+    "Evening Star": "WIN"
+  },
+  "regions": {},
+  "geography": {
+    "anchors": [
+      {
+        "label": "Winterhold field sample",
+        "regionKey": "winterhold",
+        "worldspaceFormId": 60,
+        "xRaw": 109542.4,
+        "yRaw": 104511.7,
+        "radiusRawUnits": 24576
+      },
+      {
+        "label": "Falkreath field sample",
+        "regionKey": "falkreath",
+        "worldspaceFormId": 60,
+        "xRaw": -32305.9,
+        "yRaw": -88372.0,
+        "radiusRawUnits": 24576
+      },
+      {
+        "label": "Whiterun tundra field sample",
+        "regionKey": "whiterun",
+        "worldspaceFormId": 60,
+        "xRaw": 3924.9,
+        "yRaw": 84.9,
+        "radiusRawUnits": 24576
+      }
+    ],
+    "provisionalSamples": [],
+    "atlasZones": [],
+    "nativeRegionProfiles": []
+  },
+  "elevation": {
+    "enabled": false,
+    "rawUnitsPerMeter": 70.0,
+    "maxRiseMeters": 2000.0,
+    "maxCoolingC": 12.0,
+    "references": []
+  },
+  "interior": {
+    "enabled": true,
+    "estimateUnclassified": true,
+    "baselineC": 16.0,
+    "outdoorCoupling": 0.25,
+    "minAmbientC": -5.0,
+    "maxAmbientC": 30.0,
+    "locations": []
+  }
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fomod>
+  <Name>Aetherclime - Environmental Framework (SKSE)</Name>
+  <Author>Aetherclime contributors</Author>
+  <Version>0.5.0</Version>
+  <Description>A read-only environmental intelligence framework for Skyrim. No ESP, ESL, or ESM is installed.</Description>
+</fomod>

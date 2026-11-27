@@ -1,0 +1,338 @@
+cmake_minimum_required(VERSION 3.24)
+project(Aetherclime VERSION 0.5.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_library(AetherclimeCore STATIC src/FallbackTransitionAudit.cpp src/TravelDiscontinuity.cpp src/ClimateEstimates.cpp src/HudNotifications.cpp src/EnvironmentContextAudit.cpp src/ConditionBatch.cpp src/BiomeIdentity.cpp src/ConditionQuery.cpp src/Climate.cpp src/Monitor.cpp src/MovementProbe.cpp src/RegionTransitionProbe.cpp src/WeatherCorrelationProbe.cpp src/SkyTransitionLifecycleProbe.cpp src/RegionPointerTimingProbe.cpp src/RegionSpecificCorrelationProbe.cpp src/ClimateRegionResolver.cpp src/NativeRegionAtlas.cpp src/BiomeClimatePreview.cpp src/RegionAtlas.cpp src/RegionAtlasDataAudit.cpp src/RegionalContinuity.cpp src/TemperatureHandoffAudit.cpp src/TemperatureHandoffCoverage.cpp src/GeographicGapReport.cpp src/AtlasProposalReview.cpp src/GeographicFallbackReason.cpp src/TemperatureContinuityPreview.cpp src/GeographicEvidence.cpp src/ClimateGeographyShadowAudit.cpp src/ClimateCoverageAudit.cpp src/ElevationModel.cpp src/IndoorClimateModel.cpp src/ExteriorWeatherContext.cpp src/EventClimateContext.cpp src/LocationIdentity.cpp src/EnvironmentalSnapshot.cpp)
+target_include_directories(AetherclimeCore PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_compile_features(AetherclimeCore PUBLIC cxx_std_20)
+
+add_executable(AetherclimeDemo examples/ClimateDemo.cpp)
+target_link_libraries(AetherclimeDemo PRIVATE AetherclimeCore)
+
+# Consumer-only SDK target: no provider/Core/CommonLib/SKSE dependency.
+add_library(AetherclimeNativeClient INTERFACE)
+target_include_directories(AetherclimeNativeClient INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_compile_features(AetherclimeNativeClient INTERFACE cxx_std_17)
+add_library(AetherclimeNativeConsumerExample STATIC examples/NativeConsumerExample.cpp examples/EnvironmentalSnapshotV3Example.cpp)
+target_link_libraries(AetherclimeNativeConsumerExample PRIVATE AetherclimeNativeClient)
+set_target_properties(AetherclimeNativeConsumerExample PROPERTIES CXX_STANDARD 17)
+install(FILES include/Aetherclime/PluginApi.h include/Aetherclime/NativeClient.h DESTINATION include/Aetherclime)
+
+enable_testing()
+add_executable(AetherclimeFallbackTransitionAuditTests tests/FallbackTransitionAuditTests.cpp)
+target_link_libraries(AetherclimeFallbackTransitionAuditTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeFallbackTransitionAuditTest COMMAND AetherclimeFallbackTransitionAuditTests)
+add_executable(AetherclimeClimateEstimatesTests tests/ClimateEstimatesTests.cpp)
+target_link_libraries(AetherclimeClimateEstimatesTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeClimateEstimatesTest COMMAND AetherclimeClimateEstimatesTests)
+add_executable(AetherclimeTravelDiscontinuityTests tests/TravelDiscontinuityTests.cpp)
+target_link_libraries(AetherclimeTravelDiscontinuityTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeTravelDiscontinuityTest COMMAND AetherclimeTravelDiscontinuityTests)
+add_executable(AetherclimeHudNotificationsTests tests/HudNotificationsTests.cpp)
+target_link_libraries(AetherclimeHudNotificationsTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeHudNotificationsTest COMMAND AetherclimeHudNotificationsTests)
+add_executable(AetherclimeEnvironmentContextTests tests/EnvironmentContextTests.cpp)
+target_link_libraries(AetherclimeEnvironmentContextTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeEnvironmentContextTest COMMAND AetherclimeEnvironmentContextTests)
+add_executable(AetherclimeClimateValidationTests tests/ClimateValidationTests.cpp)
+target_link_libraries(AetherclimeClimateValidationTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeClimateValidationTest COMMAND AetherclimeClimateValidationTests)
+add_executable(AetherclimeClimateModelAudit tools/ClimateModelAudit.cpp)
+target_link_libraries(AetherclimeClimateModelAudit PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeClimateModelAuditTest COMMAND AetherclimeClimateModelAudit)
+add_executable(AetherclimeNativeClientTests tests/NativeClientTests.cpp)
+target_link_libraries(AetherclimeNativeClientTests PRIVATE AetherclimeNativeClient)
+set_target_properties(AetherclimeNativeClientTests PROPERTIES CXX_STANDARD 17)
+add_test(NAME AetherclimeNativeClientTest COMMAND AetherclimeNativeClientTests)
+add_executable(AetherclimeTests tests/ClimateTests.cpp)
+target_link_libraries(AetherclimeTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeCoreTest COMMAND AetherclimeTests)
+
+add_executable(AetherclimeEnvironmentTests tests/EnvironmentTests.cpp)
+target_link_libraries(AetherclimeEnvironmentTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeEnvironmentTest COMMAND AetherclimeEnvironmentTests)
+
+add_executable(AetherclimeMonitorTests tests/MonitorTests.cpp)
+target_link_libraries(AetherclimeMonitorTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeMonitorTest COMMAND AetherclimeMonitorTests)
+
+add_executable(AetherclimeWorldPositionTests tests/WorldPositionTests.cpp)
+target_link_libraries(AetherclimeWorldPositionTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeWorldPositionTest COMMAND AetherclimeWorldPositionTests)
+
+add_executable(AetherclimeWeatherRegionTests tests/WeatherRegionTests.cpp)
+target_link_libraries(AetherclimeWeatherRegionTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeWeatherRegionTest COMMAND AetherclimeWeatherRegionTests)
+
+add_executable(AetherclimeRegionGeometryTests tests/RegionGeometryTests.cpp)
+target_link_libraries(AetherclimeRegionGeometryTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeRegionGeometryTest COMMAND AetherclimeRegionGeometryTests)
+
+add_executable(AetherclimeWeatherPriorityAuditTests tests/WeatherPriorityAuditTests.cpp)
+target_link_libraries(AetherclimeWeatherPriorityAuditTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeWeatherPriorityAuditTest COMMAND AetherclimeWeatherPriorityAuditTests)
+
+add_executable(AetherclimeRegionEdgeAuditTests tests/RegionEdgeAuditTests.cpp)
+target_link_libraries(AetherclimeRegionEdgeAuditTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeRegionEdgeAuditTest COMMAND AetherclimeRegionEdgeAuditTests)
+
+add_executable(AetherclimeRegionPolygonAuditTests tests/RegionPolygonAuditTests.cpp)
+target_link_libraries(AetherclimeRegionPolygonAuditTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeRegionPolygonAuditTest COMMAND AetherclimeRegionPolygonAuditTests)
+
+add_executable(AetherclimeMovementProbeTests tests/MovementProbeTests.cpp)
+target_link_libraries(AetherclimeMovementProbeTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeMovementProbeTest COMMAND AetherclimeMovementProbeTests)
+
+add_executable(AetherclimeRegionTransitionProbeTests tests/RegionTransitionProbeTests.cpp)
+target_link_libraries(AetherclimeRegionTransitionProbeTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeRegionTransitionProbeTest COMMAND AetherclimeRegionTransitionProbeTests)
+
+add_executable(AetherclimeWeatherCorrelationProbeTests tests/WeatherCorrelationProbeTests.cpp)
+target_link_libraries(AetherclimeWeatherCorrelationProbeTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeWeatherCorrelationProbeTest COMMAND AetherclimeWeatherCorrelationProbeTests)
+
+add_executable(AetherclimeSkyPointerGeographyAuditTests tests/SkyPointerGeographyAuditTests.cpp)
+target_link_libraries(AetherclimeSkyPointerGeographyAuditTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeSkyPointerGeographyAuditTest COMMAND AetherclimeSkyPointerGeographyAuditTests)
+
+add_executable(AetherclimeSkyTransitionLifecycleProbeTests tests/SkyTransitionLifecycleProbeTests.cpp)
+target_link_libraries(AetherclimeSkyTransitionLifecycleProbeTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeSkyTransitionLifecycleProbeTest COMMAND AetherclimeSkyTransitionLifecycleProbeTests)
+
+add_executable(AetherclimeRegionPointerTimingProbeTests tests/RegionPointerTimingProbeTests.cpp)
+target_link_libraries(AetherclimeRegionPointerTimingProbeTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeRegionPointerTimingProbeTest COMMAND AetherclimeRegionPointerTimingProbeTests)
+
+add_executable(AetherclimeRegionSpecificCorrelationProbeTests tests/RegionSpecificCorrelationProbeTests.cpp)
+target_link_libraries(AetherclimeRegionSpecificCorrelationProbeTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeRegionSpecificCorrelationProbeTest COMMAND AetherclimeRegionSpecificCorrelationProbeTests)
+
+
+add_executable(AetherclimeClimateRegionResolverTests tests/ClimateRegionResolverTests.cpp)
+target_link_libraries(AetherclimeClimateRegionResolverTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeClimateRegionResolverTest COMMAND AetherclimeClimateRegionResolverTests)
+
+add_executable(AetherclimeWildernessClimateResolverTests tests/WildernessClimateResolverTests.cpp)
+target_link_libraries(AetherclimeWildernessClimateResolverTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeWildernessClimateResolverTest COMMAND AetherclimeWildernessClimateResolverTests)
+
+add_executable(AetherclimeClimateGeographyShadowAuditTests tests/ClimateGeographyShadowAuditTests.cpp)
+target_link_libraries(AetherclimeClimateGeographyShadowAuditTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeClimateGeographyShadowAuditTest COMMAND AetherclimeClimateGeographyShadowAuditTests)
+
+add_executable(AetherclimeClimateCoverageAuditTests tests/ClimateCoverageAuditTests.cpp)
+target_link_libraries(AetherclimeClimateCoverageAuditTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeClimateCoverageAuditTest COMMAND AetherclimeClimateCoverageAuditTests)
+
+add_executable(AetherclimeIndoorClimateModelTests tests/IndoorClimateModelTests.cpp)
+target_link_libraries(AetherclimeIndoorClimateModelTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeIndoorClimateModelTest COMMAND AetherclimeIndoorClimateModelTests)
+
+add_executable(AetherclimeExteriorWeatherContextTests tests/ExteriorWeatherContextTests.cpp)
+target_link_libraries(AetherclimeExteriorWeatherContextTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeExteriorWeatherContextTest COMMAND AetherclimeExteriorWeatherContextTests)
+
+add_executable(AetherclimeEventClimateContextTests tests/EventClimateContextTests.cpp)
+target_link_libraries(AetherclimeEventClimateContextTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeEventClimateContextTest COMMAND AetherclimeEventClimateContextTests)
+
+add_executable(AetherclimeOutdoorChangeGateTests tests/OutdoorChangeGateTests.cpp)
+target_link_libraries(AetherclimeOutdoorChangeGateTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeOutdoorChangeGateTest COMMAND AetherclimeOutdoorChangeGateTests)
+
+add_executable(AetherclimeRegionalContinuityTests tests/RegionalContinuityTests.cpp)
+target_link_libraries(AetherclimeRegionalContinuityTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeRegionalContinuityTest COMMAND AetherclimeRegionalContinuityTests)
+
+add_executable(AetherclimeLocationIdentityTests tests/LocationIdentityTests.cpp)
+target_link_libraries(AetherclimeLocationIdentityTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeLocationIdentityTest COMMAND AetherclimeLocationIdentityTests)
+
+add_executable(AetherclimeProvisionalSurveyTests tests/ProvisionalSurveyTests.cpp)
+target_link_libraries(AetherclimeProvisionalSurveyTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeProvisionalSurveyTest COMMAND AetherclimeProvisionalSurveyTests)
+
+add_executable(AetherclimeRegionAtlasTests tests/RegionAtlasTests.cpp)
+target_link_libraries(AetherclimeRegionAtlasTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeRegionAtlasTest COMMAND AetherclimeRegionAtlasTests)
+
+add_executable(AetherclimeRegionAtlasDataAuditTests tests/RegionAtlasDataAuditTests.cpp)
+target_link_libraries(AetherclimeRegionAtlasDataAuditTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeRegionAtlasDataAuditTest COMMAND AetherclimeRegionAtlasDataAuditTests)
+
+add_executable(AetherclimeTemperatureHandoffAuditTests tests/TemperatureHandoffAuditTests.cpp)
+target_link_libraries(AetherclimeTemperatureHandoffAuditTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeTemperatureHandoffAuditTest COMMAND AetherclimeTemperatureHandoffAuditTests)
+
+add_executable(AetherclimeTemperatureContinuityPreviewTests tests/TemperatureContinuityPreviewTests.cpp)
+target_link_libraries(AetherclimeTemperatureContinuityPreviewTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeTemperatureContinuityPreviewTest COMMAND AetherclimeTemperatureContinuityPreviewTests)
+
+add_executable(AetherclimeTemperatureHandoffCoverageTests tests/TemperatureHandoffCoverageTests.cpp)
+target_link_libraries(AetherclimeTemperatureHandoffCoverageTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeTemperatureHandoffCoverageTest COMMAND AetherclimeTemperatureHandoffCoverageTests)
+
+add_executable(AetherclimeGeographicGapReportTests tests/GeographicGapReportTests.cpp)
+target_link_libraries(AetherclimeGeographicGapReportTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeGeographicGapReportTest COMMAND AetherclimeGeographicGapReportTests)
+
+add_executable(AetherclimeGeographicFallbackReasonTests tests/GeographicFallbackReasonTests.cpp)
+target_link_libraries(AetherclimeGeographicFallbackReasonTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeGeographicFallbackReasonTest COMMAND AetherclimeGeographicFallbackReasonTests)
+
+add_executable(AetherclimeGeographicCorridorReportTests tests/GeographicCorridorReportTests.cpp)
+target_link_libraries(AetherclimeGeographicCorridorReportTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeGeographicCorridorReportTest COMMAND AetherclimeGeographicCorridorReportTests)
+
+add_executable(AetherclimeAtlasProposalReviewTests tests/AtlasProposalReviewTests.cpp)
+target_link_libraries(AetherclimeAtlasProposalReviewTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeAtlasProposalReviewTest COMMAND AetherclimeAtlasProposalReviewTests)
+
+add_executable(AetherclimeNativeRegionAtlasTests tests/NativeRegionAtlasTests.cpp)
+target_link_libraries(AetherclimeNativeRegionAtlasTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeNativeRegionAtlasTest COMMAND AetherclimeNativeRegionAtlasTests)
+
+add_executable(AetherclimeNativeBiomeGeometryTests tests/NativeBiomeGeometryTests.cpp)
+target_link_libraries(AetherclimeNativeBiomeGeometryTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeNativeBiomeGeometryTest COMMAND AetherclimeNativeBiomeGeometryTests)
+
+add_executable(AetherclimeBiomeClimatePreviewTests tests/BiomeClimatePreviewTests.cpp)
+target_link_libraries(AetherclimeBiomeClimatePreviewTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeBiomeClimatePreviewTest COMMAND AetherclimeBiomeClimatePreviewTests)
+
+# Standalone consumer checker: deliberately NO link to AetherclimeCore.
+add_library(AetherclimeApiConsumerChecks STATIC tools/api-probe/ApiConsumerChecks.cpp)
+target_include_directories(AetherclimeApiConsumerChecks PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+add_executable(AetherclimeApiConsumerTests tests/ApiConsumerTests.cpp)
+target_link_libraries(AetherclimeApiConsumerTests PRIVATE AetherclimeApiConsumerChecks)
+add_test(NAME AetherclimeApiConsumerTest COMMAND AetherclimeApiConsumerTests)
+
+add_executable(AetherclimeBiomeIdentityTests tests/BiomeIdentityTests.cpp)
+target_link_libraries(AetherclimeBiomeIdentityTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeBiomeIdentityTest COMMAND AetherclimeBiomeIdentityTests)
+
+add_executable(AetherclimeEnvironmentV2Tests tests/EnvironmentV2Tests.cpp)
+target_link_libraries(AetherclimeEnvironmentV2Tests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeEnvironmentV2Test COMMAND AetherclimeEnvironmentV2Tests)
+
+add_executable(AetherclimeConditionBatchTests tests/ConditionBatchTests.cpp)
+target_link_libraries(AetherclimeConditionBatchTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeConditionBatchTest COMMAND AetherclimeConditionBatchTests)
+
+add_executable(AetherclimeConditionQueryTests tests/ConditionQueryTests.cpp)
+target_link_libraries(AetherclimeConditionQueryTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeConditionQueryTest COMMAND AetherclimeConditionQueryTests)
+
+add_executable(AetherclimeSpatialClimateTests tests/SpatialClimateTests.cpp)
+target_link_libraries(AetherclimeSpatialClimateTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeSpatialClimateTest COMMAND AetherclimeSpatialClimateTests)
+
+add_executable(AetherclimeGeographicEvidenceTests tests/GeographicEvidenceTests.cpp)
+target_link_libraries(AetherclimeGeographicEvidenceTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeGeographicEvidenceTest COMMAND AetherclimeGeographicEvidenceTests)
+
+add_executable(AetherclimeEnvironmentalSnapshotTests tests/EnvironmentalSnapshotTests.cpp)
+target_link_libraries(AetherclimeEnvironmentalSnapshotTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeEnvironmentalSnapshotTest COMMAND AetherclimeEnvironmentalSnapshotTests)
+
+# Unit suites use assert(). Keep assertions active even when the main
+add_executable(AetherclimeElevationModelTests tests/ElevationModelTests.cpp)
+target_link_libraries(AetherclimeElevationModelTests PRIVATE AetherclimeCore)
+add_test(NAME AetherclimeElevationModelTest COMMAND AetherclimeElevationModelTests)
+
+# plugin is compiled with Release/NDEBUG, otherwise a green CTest can be false.
+foreach(test_target IN ITEMS
+    AetherclimeClimateEstimatesTests
+    AetherclimeTravelDiscontinuityTests
+    AetherclimeHudNotificationsTests
+    AetherclimeTests
+    AetherclimeEnvironmentTests
+    AetherclimeMonitorTests
+    AetherclimeWorldPositionTests
+    AetherclimeWeatherRegionTests
+    AetherclimeRegionGeometryTests
+    AetherclimeWeatherPriorityAuditTests
+    AetherclimeRegionEdgeAuditTests
+    AetherclimeRegionPolygonAuditTests
+    AetherclimeMovementProbeTests
+    AetherclimeRegionTransitionProbeTests
+    AetherclimeWeatherCorrelationProbeTests
+    AetherclimeSkyPointerGeographyAuditTests
+    AetherclimeSkyTransitionLifecycleProbeTests
+    AetherclimeRegionPointerTimingProbeTests
+    AetherclimeRegionSpecificCorrelationProbeTests
+    AetherclimeClimateRegionResolverTests
+    AetherclimeWildernessClimateResolverTests
+    AetherclimeClimateGeographyShadowAuditTests
+    AetherclimeClimateCoverageAuditTests
+    AetherclimeElevationModelTests
+    AetherclimeIndoorClimateModelTests
+    AetherclimeExteriorWeatherContextTests
+    AetherclimeEventClimateContextTests
+    AetherclimeOutdoorChangeGateTests
+    AetherclimeLocationIdentityTests
+    AetherclimeRegionalContinuityTests
+    AetherclimeProvisionalSurveyTests
+    AetherclimeRegionAtlasTests
+    AetherclimeRegionAtlasDataAuditTests
+    AetherclimeTemperatureHandoffAuditTests
+    AetherclimeTemperatureContinuityPreviewTests
+    AetherclimeGeographicEvidenceTests
+    AetherclimeTemperatureHandoffCoverageTests
+    AetherclimeGeographicGapReportTests
+    AetherclimeGeographicFallbackReasonTests
+    AetherclimeGeographicCorridorReportTests
+    AetherclimeAtlasProposalReviewTests
+    AetherclimeNativeRegionAtlasTests
+    AetherclimeNativeBiomeGeometryTests
+    AetherclimeBiomeClimatePreviewTests
+    AetherclimeSpatialClimateTests
+    AetherclimeConditionBatchTests
+    AetherclimeConditionQueryTests
+    AetherclimeBiomeIdentityTests
+    AetherclimeEnvironmentV2Tests
+    AetherclimeApiConsumerTests
+    AetherclimeNativeClientTests
+    AetherclimeEnvironmentContextTests
+    AetherclimeClimateValidationTests
+    AetherclimeClimateModelAudit
+    AetherclimeEnvironmentalSnapshotTests)
+    if(MSVC)
+        target_compile_options(${test_target} PRIVATE /UNDEBUG)
+    else()
+        target_compile_options(${test_target} PRIVATE -UNDEBUG)
+    endif()
+endforeach()
+
+option(AETHERCLIME_BUILD_SKSE "Build Skyrim SKSE DLL (Windows, CommonLibSSE-NG required)" ${WIN32})
+if(AETHERCLIME_BUILD_SKSE)
+    if(NOT WIN32)
+        message(FATAL_ERROR "The SKSE DLL can only be built on Windows")
+    endif()
+    find_package(CommonLibSSE CONFIG REQUIRED)
+    find_package(nlohmann_json CONFIG REQUIRED)
+    add_commonlibsse_plugin(Aetherclime SOURCES
+        src/SksePlugin.cpp
+        src/ApiProbeHost.cpp
+        src/ApiProbeHost.h
+        src/SettingsJson.cpp
+        src/SettingsJson.h
+        include/Aetherclime/PluginApi.h
+    )
+    set_source_files_properties(src/ApiProbeHost.cpp PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
+    # Optional-at-runtime consumer DLL, built separately with public ABI headers only.
+    add_library(AetherclimeApiProbe SHARED tools/api-probe/ApiProbeWin32.cpp)
+    target_link_libraries(AetherclimeApiProbe PRIVATE AetherclimeApiConsumerChecks)
+    set_target_properties(AetherclimeApiProbe PROPERTIES PREFIX "" OUTPUT_NAME "AetherclimeApiProbe")
+    install(TARGETS AetherclimeApiProbe RUNTIME DESTINATION "SKSE/Plugins/Aetherclime/Diagnostics")
+    # CommonLibSSE-NG's umbrella headers establish the SKSE/RE types and
+    # standard-library includes needed by its generated plugin source too.
+    target_precompile_headers(Aetherclime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/PCH.h")
+    target_include_directories(Aetherclime PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(Aetherclime PRIVATE AetherclimeCore nlohmann_json::nlohmann_json)
+    install(TARGETS Aetherclime RUNTIME DESTINATION "SKSE/Plugins")
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Data/" DESTINATION ".")
+endif()
